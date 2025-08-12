@@ -9,6 +9,7 @@
 :root{
   --verde:#00A54F;
   --verde-2:#1b8b43;
+  --verde-metal: linear-gradient(135deg, #0f5d2a, #1b8b43, #0f5d2a);
   --amarillo:#FFD700;
   --blanco:#ffffff;
   --gris-claro:#F5F6F8;
@@ -43,34 +44,52 @@ body{
   overflow:hidden;
 }
 
-/* BANNER */
+/* BANNER - ahora con efecto verde metalizado */
 .banner{
   display:flex;
   gap:16px;
   align-items:center;
   padding:18px;
   border-radius:12px;
-  background: linear-gradient(90deg, rgba(0,165,79,0.95), rgba(255,215,0,0.95));
+  background: var(--verde-metal);
+  background-size: 200% 200%;
+  animation: metalMove 6s linear infinite;
   color:#fff;
   margin-bottom:18px;
   position:relative;
+}
+@keyframes metalMove {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
 }
 .banner .left{display:flex;align-items:center;gap:14px}
 .banner h1{margin:0;font-size:1.25rem;font-weight:700}
 .banner p{margin:2px 0 0;font-size:0.95rem;opacity:.95}
 
-/* SVG LOGO WRAPPER */
+/* LOGO WRAPPER - ahora con imagen circular */
 .logo-wrap{
-  width:76px;height:76px;border-radius:999px;display:grid;place-items:center;background:rgba(255,255,255,0.06);
+  width:76px;height:76px;border-radius:999px;display:grid;place-items:center;
+  background:rgba(255,255,255,0.06);
   position:relative;flex:0 0 76px;
+  overflow:hidden;
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
 }
 .logo-svg{
   width:58px;height:58px;border-radius:999px;background:var(--blanco);display:grid;place-items:center;z-index:4;
   box-shadow:0 8px 20px rgba(0,0,0,0.08);
   transform:translateZ(0);
+  overflow:hidden;
+}
+.logo-svg img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  border-radius:50%;
 }
 
-/* rotating soft light ring */
+/* rotating soft light ring (se conserva) */
 .light-ring{
   position:absolute;inset:0;pointer-events:none;display:grid;place-items:center;
 }
@@ -95,14 +114,14 @@ body{
 .progress .bar{
   width:0%;
   height:100%;
-  background: linear-gradient(90deg, var(--verde), var(--amarillo));
+  background: linear-gradient(90deg, var(--amarillo), #FFB600);
   transition: width 520ms cubic-bezier(.2,.9,.2,1);
 }
 
 /* STEPS PILL (visible desktop) */
 .steps-row{display:flex;justify-content:space-between;margin-top:10px;gap:6px}
 .step-pill{font-size:12px;color:#777;padding:6px 8px;border-radius:999px;min-width:36px;text-align:center; background:transparent}
-.step-pill.active{color:var(--verde);font-weight:700}
+.step-pill.active{color:var(--amarillo);font-weight:700}
 
 /* FORM LAYOUT */
 form{display:grid;gap:16px}
@@ -132,8 +151,8 @@ label{display:block;font-size:14px;margin-bottom:6px;font-weight:600}
 .input:focus, select:focus, textarea:focus{
   outline:none;
   transform: translateY(-2px);
-  box-shadow: 0 12px 36px rgba(0,165,79,0.10);
-  border-color: var(--verde);
+  box-shadow: 0 12px 36px rgba(255,215,0,0.10);
+  border-color: var(--amarillo);
 }
 
 /* checkbox/radio style */
@@ -158,7 +177,7 @@ label{display:block;font-size:14px;margin-bottom:6px;font-weight:600}
 .btn:active{transform:translateY(1px)}
 .btn.ghost{background:transparent;border:1px solid var(--gris);color:#333}
 .btn.primary{
-  background: linear-gradient(90deg,var(--verde), var(--amarillo));
+  background: linear-gradient(90deg,var(--amarillo), #FFB600);
   color:#04261a;
   box-shadow: 0 12px 30px rgba(0,165,79,0.12);
 }
@@ -202,21 +221,9 @@ label{display:block;font-size:14px;margin-bottom:6px;font-weight:600}
           <div class="light-ring" aria-hidden>
             <div class="ring"></div>
           </div>
-          <!-- Mocked SVG logo (simulado) -->
+          <!-- Reemplazamos el SVG por una imagen desde URL (logo circular) -->
           <div class="logo-svg" aria-hidden>
-            <svg viewBox="0 0 100 100" width="56" height="56" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logo Seguros Bolívar simulado">
-              <defs>
-                <linearGradient id="g1" x1="0" x2="1">
-                  <stop offset="0" stop-color="#FFD700"/>
-                  <stop offset="1" stop-color="#FFB600"/>
-                </linearGradient>
-              </defs>
-              <circle cx="50" cy="50" r="46" fill="url(#g1)"/>
-              <g transform="translate(18,16)" fill="#0B3A1A">
-                <path d="M28 16c0-8-12-8-12-8v48s12 0 12-8c0-5 0-8 0-32z" />
-                <path d="M44 10c-6-6-24-6-24-6v64c0 0 18 0 24-6 6-6 6-52 0-52z" opacity="0.95"/>
-              </g>
-            </svg>
+            <img src="data:image/png;base64,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" alt="Logo Seguros Bolívar">
           </div>
         </div>
 
